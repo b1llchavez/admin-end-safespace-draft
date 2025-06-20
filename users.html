@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - SafeSpace PH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.png" alt="SafeSpace PH Logo" class="sidebar-logo-img">
+            <div class="logo">SafeSpace PH</div>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="users.html" class="active"><i class="fas fa-users"></i> User Management</a></li>
+                <li><a href="lawyer-approval.html"><i class="fas fa-gavel"></i> Lawyer Verification</a></li>
+                <li><a href="reports.html"><i class="fas fa-exclamation-triangle"></i> Violation Reports</a></li>
+                <li><a href="appointments.html"><i class="fas fa-calendar-alt"></i> Appointment Management</a></li>
+                <li><a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Reports & Statistics</a></li>
+                <li><a href="feedback.html"><i class="fas fa-comments"></i> Feedback & Support</a></li>
+                <li><a href="settings.html"><i class="fas fa-cogs"></i> Admin Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>User Management</h1>
+            <div class="user-profile">
+                <div class="avatar">BM</div>
+                <span class="username">Bill</span>
+                <i class="fas fa-caret-down dropdown-arrow"></i>
+            </div>
+        </header>
+
+        <div class="filter-controls">
+            <input type="text" placeholder="Search users..." id="userSearch">
+            <select id="userRoleFilter">
+                <option value="">All Roles</option>
+                <option value="Victim">Victim</option>
+                <option value="Lawyer">Lawyer</option>
+            </select>
+            <select id="userStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Banned">Banned</option>
+            </select>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Juan Dela Cruz</td>
+                    <td>juan.dc@example.com</td>
+                    <td>Victim</td>
+                    <td>Active</td>
+                    <td class="action-buttons">
+                        <button onclick="viewUserModal('Juan Dela Cruz')">View</button>
+                        <button class="delete" onclick="deactivateUser('Juan Dela Cruz')">Deactivate</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Atty. Maria Santos</td>
+                    <td>maria.s@law.com</td>
+                    <td>Lawyer</td>
+                    <td>Active</td>
+                    <td class="action-buttons">
+                        <button onclick="viewUserModal('Atty. Maria Santos')">View</button>
+                        <button class="delete" onclick="deactivateUser('Atty. Maria Santos')">Deactivate</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pedro Reyes</td>
+                    <td>pedro.r@example.com</td>
+                    <td>Victim</td>
+                    <td>Banned</td>
+                    <td class="action-buttons">
+                        <button onclick="viewUserModal('Pedro Reyes')">View</button>
+                        <button class="delete" onclick="deactivateUser('Pedro Reyes')">Activate</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="userModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2>User Details</h2>
+                <p><strong>Name:</strong> <span id="modalUserName"></span></p>
+                <p><strong>Email:</strong> <span id="modalUserEmail"></span></p>
+                <p><strong>Role:</strong> <span id="modalUserRole"></span></p>
+                <p><strong>Status:</strong> <span id="modalUserStatus"></span></p>
+                <p><strong>Registration Date:</strong> <span id="modalUserRegDate"></span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- <script>
+        function viewUserModal(userName) {
+            // In a real application, you would fetch user data from a backend
+            // For this example, we'll use dummy data
+            const users = {
+                "Juan Dela Cruz": { email: "juan.dc@example.com", role: "Victim", status: "Active", regDate: "2023-01-15" },
+                "Atty. Maria Santos": { email: "maria.s@law.com", role: "Lawyer", status: "Active", regDate: "2022-11-01" },
+                "Pedro Reyes": { email: "pedro.r@example.com", role: "Victim", status: "Banned", regDate: "2023-03-20" }
+            };
+            const user = users[userName];
+
+            if (user) {
+                document.getElementById('modalUserName').innerText = userName;
+                document.getElementById('modalUserEmail').innerText = user.email;
+                document.getElementById('modalUserRole').innerText = user.role;
+                document.getElementById('modalUserStatus').innerText = user.status;
+                document.getElementById('modalUserRegDate').innerText = user.regDate;
+                
+                // --- FIX: Add 'show' class instead of direct style manipulation ---
+                document.getElementById('userModal').classList.add('show'); 
+            }
+        }
+
+        function closeModal() {
+            // --- FIX: Remove 'show' class ---
+            document.getElementById('userModal').classList.remove('show');
+        }
+
+        function deactivateUser(userName) {
+            if (confirm(`Are you sure you want to deactivate ${userName}?`)) {
+                alert(`${userName} has been deactivated.`);
+                // In a real app, send request to backend to change user status
+            }
+        }
+
+        // Basic filtering (can be expanded)
+        document.getElementById('userSearch').addEventListener('keyup', filterUsers);
+        document.getElementById('userRoleFilter').addEventListener('change', filterUsers);
+        document.getElementById('userStatusFilter').addEventListener('change', filterUsers);
+
+        function filterUsers() {
+            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+            const roleFilter = document.getElementById('userRoleFilter').value;
+            const statusFilter = document.getElementById('userStatusFilter').value;
+            const table = document.querySelector('.data-table tbody');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const userName = rows[i].cells[0].innerText.toLowerCase();
+                const userRole = rows[i].cells[2].innerText;
+                const userStatus = rows[i].cells[3].innerText;
+
+                const matchesSearch = userName.includes(searchTerm);
+                const matchesRole = roleFilter === "" || userRole === roleFilter;
+                const matchesStatus = statusFilter === "" || userStatus === statusFilter;
+
+                if (matchesSearch && matchesRole && matchesStatus) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    </script> -->
+</body>
+</html>
